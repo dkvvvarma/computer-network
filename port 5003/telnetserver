@@ -1,0 +1,14 @@
+import socket
+s= socket.socket()
+print("Socket Successfully created:")
+port=5003
+s.bind(('',port))
+print(f'socket bind to port{port}')
+s.listen(5)
+print('socket is listtening')
+while True:
+    c,addr = s.accept()
+    print('Got connection from ',addr)
+    message = ('Hello DKVV Varma')
+    c.send(message.encode())
+    c.close()

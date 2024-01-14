@@ -1,0 +1,22 @@
+import socket
+
+server = socket.socket()
+server.bind(("localhost", 5006))
+server.listen(3)
+print("Server Activated")
+
+while True:
+    client, address = server.accept()
+    print(str(address) + " is connected.")
+    client_request = client.recv(1024)
+    filename = client_request.decode() 
+    print("Server received", filename)
+    try:
+        with open(filename, 'rb') as f:
+            data = f.read()
+            client.sendall(data)
+        print("File sent to " + str(address) + " server!")
+    except FileNotFoundError:
+        client.sendall(b"File not found")
+        print("File not found: " + filename)
+    client.close()
